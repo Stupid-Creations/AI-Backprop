@@ -1,22 +1,29 @@
 import random
 
 def transpose(X):
-    return [[X[j][i] for j in range(len(X))] for i in range(len(X[0]))]
+    a = X
+    return [[a[j][i] for j in range(len(a))] for i in range(len(a[0]))]
 
 def s_mult(X,scalar):
     return [[x*scalar for x in j] for j in X]
 
 def subtract(X,Y):
-    output = X
-    for i in range(len(X)-1):
-        for j in range(len(X[0])-1):
+    if get_shape(X) != get_shape(Y):
+        print(get_shape(X),get_shape(Y))
+        raise ValueError("X and Y must be the same shape")
+    output = zero_matrix(get_cols(X),get_rows(X))
+    for i in range(len(X)):
+        for j in range(len(X[0])):
             output[i][j] = X[i][j]-Y[i][j]
     return output
 
 def add(X,Y):
+    if get_shape(X) != get_shape(Y):
+        print(get_shape(X),get_shape(Y))
+        raise ValueError("X and Y must be the same shape")
     output = zero_matrix(get_cols(X),get_rows(X))
-    for i in range(get_cols(X)):
-        for j in range(get_rows(X)):
+    for i in range(len(X)):
+        for j in range(len(X[0])):
             output[i][j] = X[i][j]+Y[i][j]
     return output
 
@@ -37,7 +44,6 @@ def dot(X,Y):
         try:
             return [[sum(a*b for a,b in zip(X_row,Y_col)) for Y_col in zip(*Y)] for X_row in X]
         except:
-            print('a')
             raise Exception("Wrong Matrix Shape")
 
 def random_matrix(a,b):
